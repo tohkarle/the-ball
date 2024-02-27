@@ -49,21 +49,6 @@ struct AnimateBallView: View {
                 }
         }
         .ignoresSafeArea(.all)
-        .overlay(alignment: .bottom) {
-            VStack {
-                CustomSlider(title: "Corner Radius", value: $cornerRadius)
-                    .padding(.top, 21)
-                    .padding(.horizontal, 9)
-                CustomSlider(title: "Size", value: $width, min: 50, max: 300)
-                    .padding(.bottom)
-                    .padding(.horizontal, 9)
-            }
-            .background {
-                RoundedRectangle(cornerRadius: 21, style: .continuous)
-                    .fill(.ultraThinMaterial)
-            }
-            .padding()
-        }
     }
 }
 

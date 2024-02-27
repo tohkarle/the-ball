@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomSlider: View {
     
     let title: String
-    @Binding var value: CGFloat
+    @Binding var value: Double
     var min: Double = 0
     var max: Double = 99
     

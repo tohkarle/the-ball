@@ -8,28 +8,48 @@
 import SwiftUI
 import CoreMotion
 
+#if os(iOS)
+typealias PlatformColor = UIColor
+extension Color {
+    init(platformColor: PlatformColor) {
+        self.init(uiColor: platformColor)
+    }
+}
+#elseif os(macOS)
+typealias PlatformColor = NSColor
+extension Color {
+    init(platformColor: PlatformColor) {
+        self.init(nsColor: platformColor)
+    }
+}
+#endif
+
 struct HomeView: View {
     
     @Environment(\.scenePhase) var scenePhase
     
-    @State private var modeIndex = 0
-    let modes = ["Motion", "Drag", "Animate"]
-    
     @State private var offset: CGSize = .zero
     
-    @State private var allowAllBallsToMove: Bool = false
-    @State private var showCustomization: Bool = false
+    let modes = ["Motion", "Animate"]
+    @State private var selectedMode: String = "Motion"
     
-    @State private var stickiness: CGFloat = 21
+    @State private var showCustomization: Bool = true
+    @State private var showingConfirmation = false
     
-    @State private var randomness: CGFloat = 180
-    
-    @State private var maxBallCount: CGFloat = 6  // Original is 15
-    
-    @State private var cornerRadius: CGFloat = 99
-    @State private var width: CGFloat = 180
-    
-    @State private var fluidity: CGFloat = 450
+    @AppStorage("blur") private var blur: Double = 0
+    @AppStorage("stickyWall") private var stickyWall: Bool = true
+    @AppStorage("stickiness") private var stickiness: Double = 21
+    @AppStorage("randomness") private var randomness: Double = 150
+    @AppStorage("moveBallCount") private var moveBallCount: Double = 1
+    @AppStorage("maxBallCount") private var maxBallCount: Double = 15
+    @AppStorage("ballSize") private var ballSize: Double = 180
+    @AppStorage("fluidity") private var fluidity: Double = 450
+    @AppStorage("setCustomBgColor") private var setCustomBgColor: Bool = false
+    @AppStorage("bgColor") private var bgColor = Color.black
+    @AppStorage("setCustomBallColor") private var setCustomBallColor: Bool = false
+    @AppStorage("gradient1") private var gradient1 = Color("gradient1")
+    @AppStorage("gradient2") private var gradient2 = Color("gradient2")
+    @AppStorage("gradient3") private var gradient3 = Color("gradient3")
     
     var motionService: MotionService = MotionServiceAdapter.shared
     
@@ -37,7 +57,10 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            GradientColorBackground()
+            GradientColorBackground(setCustomBallColor: setCustomBallColor,
+                                    gradient1: gradient1,
+                                    gradient2: gradient2,
+                                    gradient3: gradient3)
                 .mask {
                     TimelineView(.animation(minimumInterval: 3.6, paused: false)) { _ in
                         Canvas { context, size in
@@ -52,101 +75,76 @@ struct HomeView: View {
                             }
                         } symbols: {
                             
-//                            ForEach(1...Int(maxBallCount), id: \.self) { index in
-//                                
-//                                if index == 1 {
-//                                    Ball(cornerRadius: cornerRadius,
-//                                         width: width,
-//                                         offset: offset)
-//                                        .tag(1)
-//                                } else {
-//                                    
-//                                    let offset = startAnimation ? offset : .zero
-//                                    
-//                                    Ball(cornerRadius: cornerRadius,
-//                                         width: width,
-//                                         offset: offset)
-//                                    .tag(index)
-//                                    .animation(.easeInOut(duration: TimeInterval(index - 1)), value: offset)
-//                                }
-//                            }
-                            
                             ForEach(1...Int(maxBallCount), id: \.self) { index in
                                 
                                 if index == 1 {
-                                    Ball(cornerRadius: cornerRadius,
-                                         width: width,
+                                    Ball(width: ballSize,
                                          offset: offset)
-                                        .tag(1)
+                                    .tag(1)
+                                } else if index == 2 && moveBallCount > 1 {
+                                    Ball(width: ballSize,
+                                         offset: offset)
+                                    .tag(2)
+                                    .animation(.easeInOut(duration: 1), value: offset)
+                                } else if index == 3 && moveBallCount > 2 {
+                                    Ball(width: ballSize,
+                                         offset: offset)
+                                    .tag(3)
+                                    .animation(.easeInOut(duration: 2), value: offset)
                                 } else {
-                                    let randomHeight = randomness * (UIScreen.main.bounds.height / UIScreen.main.bounds.width)
-                                    let offset = (modeIndex == 2 ? CGSize(width: .random(in: -randomness...randomness), height: .random(in: -randomHeight...randomHeight)) : allowAllBallsToMove ? self.offset : .zero)
-                                    
-                                    Ball(cornerRadius: cornerRadius,
-                                         width: width,
-                                         offset: offset)
-                                        .tag(index)
-                                        .animation(.easeInOut(duration: 4), value: offset)
+                                let randomHeight = randomness * (UIScreen.main.bounds.height / UIScreen.main.bounds.width)
+                                let offset = (selectedMode == "Animate" ? CGSize(width: .random(in: -randomness...randomness), height: .random(in: -randomHeight...randomHeight)) : .zero)
+                                
+                                Ball(width: ballSize,
+                                     offset: offset)
+                                    .tag(index)
+                                    .animation(.easeInOut(duration: 4), value: offset)
                                 }
                             }
                             
-                            Rectangle()
-                                .fill(.white)
-                                .frame(width: UIScreen.main.bounds.width, height: 40)
-                                .offset(y: UIScreen.main.bounds.height / 2 + 20)
-                                .tag(Int(maxBallCount + 1))
-                            
-                            Rectangle()
-                                .fill(.white)
-                                .frame(width: UIScreen.main.bounds.width, height: 40)
-                                .offset(y: -(UIScreen.main.bounds.height / 2 + 20))
-                                .tag(Int(maxBallCount + 2))
-                            
-                            Rectangle()
-                                .fill(.white)
-                                .frame(width: 40, height: UIScreen.main.bounds.height)
-                                .offset(x: UIScreen.main.bounds.width / 2 + 20)
-                                .tag(Int(maxBallCount + 3))
-                            
-                            Rectangle()
-                                .fill(.white)
-                                .frame(width: 40, height: UIScreen.main.bounds.height)
-                                .offset(x: -(UIScreen.main.bounds.width / 2 + 20))
-                                .tag(Int(maxBallCount + 4))
+                            if stickyWall {
+                                Rectangle()
+                                    .fill(.white)
+                                    .frame(width: UIScreen.main.bounds.width, height: 40)
+                                    .offset(y: UIScreen.main.bounds.height / 2 + 20)
+                                    .tag(Int(maxBallCount + 1))
+                                
+                                Rectangle()
+                                    .fill(.white)
+                                    .frame(width: UIScreen.main.bounds.width, height: 40)
+                                    .offset(y: -(UIScreen.main.bounds.height / 2 + 20))
+                                    .tag(Int(maxBallCount + 2))
+                                
+                                Rectangle()
+                                    .fill(.white)
+                                    .frame(width: 40, height: UIScreen.main.bounds.height)
+                                    .offset(x: UIScreen.main.bounds.width / 2 + 20)
+                                    .tag(Int(maxBallCount + 3))
+                                
+                                Rectangle()
+                                    .fill(.white)
+                                    .frame(width: 40, height: UIScreen.main.bounds.height)
+                                    .offset(x: -(UIScreen.main.bounds.width / 2 + 20))
+                                    .tag(Int(maxBallCount + 4))
+                            }
                         }
                     }
+                    .blur(radius: blur)
                 }
                 .contentShape(Rectangle())
-                .simultaneousGesture(
-                    DragGesture()
-                        .onChanged { value in
-                            if modeIndex == 1 {
-                                offset = value.translation
-                            }
-                        }
-                        .onEnded { _ in
-                            if modeIndex == 1 {
-                                resetOffset()
-                            }
-                        }
-                )
         }
+        .background(setCustomBgColor ? bgColor : Color.clear)
         .onTapGesture {
             Haptics.shared.play(.soft)
-            modeIndex = (modeIndex + 1) % modes.count
+            if selectedMode == "Motion" {
+                selectedMode = "Animate"
+            } else {
+                selectedMode = "Motion"
+            }
         }
-        .simultaneousGesture(
-            LongPressGesture(minimumDuration: 0.9)
-                .onEnded({ _ in
-                    if modeIndex != 2 {
-                        Haptics.shared.play(.soft)
-                        allowAllBallsToMove.toggle()
-                    }
-                })
-        )
         .ignoresSafeArea(.all)
         .overlay(alignment: .bottom) {
-            VStack {
+            VStack(spacing: 0.0) {
                 Button {
                     withAnimation(.snappy) {
                         showCustomization.toggle()
@@ -156,79 +154,106 @@ struct HomeView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundStyle(.gray.opacity(0.6))
-                        .padding(.top)
-                        .frame(maxWidth: .infinity)
                         .rotationEffect(Angle(degrees: showCustomization ? 180 : 0), anchor: .center)
+                        .padding([.top, .horizontal], 36)
+                        .padding(.bottom, 15)
                 }
                 .offset(y: showCustomization ? 0 : UIScreen.main.bounds.height / 2.82)
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        Picker("Mode", selection: $modeIndex) {
+                        Picker("Mode", selection: $selectedMode) {
                             ForEach(modes, id: \.self) {
                                 Text($0)
                             }
                         }
                         .pickerStyle(.segmented)
-                        .padding(.top, 21)
-                        .padding(.horizontal, 24)
+                        .padding([.top, .horizontal], 24)
                         .padding(.bottom, 15)
-                        if modeIndex == 0 {
-                            CustomSlider(title: "Fluidity", value: $fluidity, min: 150, max: 900)
-                                .padding(.horizontal, 9)
-                        }
-                        CustomSlider(title: "Randomness", value: $randomness, min: 0, max: UIScreen.main.bounds.width / 2)
-                            .padding(.horizontal, 9)
                         CustomSlider(title: "Stickiness", value: $stickiness)
                             .padding(.horizontal, 9)
-                        if modeIndex == 2 {
-                            CustomSlider(title: "Ball count", value: $maxBallCount, min: 2, max: 30)
+                        if selectedMode == "Animate" {
+                            CustomSlider(title: "Randomness", value: $randomness, min: 0, max: UIScreen.main.bounds.width / 2)
+                                .padding(.horizontal, 9)
+                            CustomSlider(title: "Animating ball", value: $maxBallCount, min: 2, max: 30)
+                                .padding(.horizontal, 9)
+                        } else {
+                            CustomSlider(title: "Sensitivity", value: $fluidity, min: 150, max: 900)
+                                .padding(.horizontal, 9)
+                            CustomSlider(title: "Moving ball", value: $moveBallCount, min: 1, max: 3)
                                 .padding(.horizontal, 9)
                         }
-                        CustomSlider(title: "Ball size", value: $width, min: 50, max: 300)
-                            .padding(.bottom)
+                        CustomSlider(title: "Ball size", value: $ballSize, min: 50, max: 300)
                             .padding(.horizontal, 9)
+                        CustomSlider(title: "Blur", value: $blur, min: 0, max: 60)
+                            .padding(.horizontal, 9)
+                        Toggle("Sticky wall", isOn: $stickyWall)
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, 9)
+                        Toggle("Custom background color", isOn: $setCustomBgColor)
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, setCustomBgColor ? 0 : 9)
+                        if setCustomBgColor {
+                            ColorPicker("Background color", selection: $bgColor)
+                                .padding(.leading, 15)
+                                .padding(.horizontal, 24)
+                                .padding(.bottom, 9)
+                        }
+                        Toggle("Custom ball color", isOn: $setCustomBallColor)
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, setCustomBallColor ? 0 : 12)
+                        if setCustomBallColor {
+                            ColorPicker("Gradient 1", selection: $gradient1)
+                                .padding(.leading, 15)
+                                .padding(.horizontal, 24)
+                            ColorPicker("Gradient 2", selection: $gradient2)
+                                .padding(.leading, 15)
+                                .padding(.horizontal, 24)
+                            ColorPicker("Gradient 3", selection: $gradient3)
+                                .padding(.leading, 15)
+                                .padding(.horizontal, 24)
+                                .padding(.bottom, 12)
+                        }
+                        Button("Reset to defaults") {
+                            showingConfirmation = true
+                        }
+                        .padding(.bottom, 27)
+                        .alert(isPresented: $showingConfirmation) {
+                            Alert(
+                                title: Text("Confirmation"),
+                                message: Text("Are you sure you want to reset to default values?"),
+                                primaryButton: .destructive(Text("Reset")) {
+                                    reset()
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
                     }
-                    .animation(.easeInOut, value: modeIndex)
+                    .animation(.easeInOut, value: selectedMode)
+                    .animation(.easeInOut, value: setCustomBgColor)
                 }
-                .ignoresSafeArea()
                 .frame(height: 300)
                 .background {
                     RoundedRectangle(cornerRadius: 21, style: .continuous)
                         .fill(.ultraThinMaterial)
                 }
-                .padding()
+                .padding([.horizontal, .bottom])
                 .offset(y: showCustomization ? 0 : UIScreen.main.bounds.height)
             }
+            .ignoresSafeArea(.all)
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                if modeIndex == 0 {
-                    startMonitoring()
-                } else if modeIndex == 1 {
-                    stopMonitoring()
-                }
+                startMonitoring()
             } else if newPhase == .background {
-                if modeIndex == 0 {
-                    stopMonitoring()
-                }
+                stopMonitoring()
             }
         }
-        .onChange(of: modeIndex) { newValue in
-        
-            resetOffset()
-            
-            switch(newValue) {
-            case 0:
-                maxBallCount = 3
+        .onChange(of: selectedMode) { newValue in
+            if selectedMode == "Motion" {
                 startMonitoring()
-            case 1:
-                maxBallCount = 3
-                stopMonitoring()
-            case 2:
-                maxBallCount = 15
-                stopMonitoring()
-            default:
+            } else {
+                resetOffset()
                 stopMonitoring()
             }
         }
@@ -255,9 +280,52 @@ struct HomeView: View {
     
     @MainActor
     private func updateOffset(x: Double, y: Double) {
-        withAnimation(.snappy) {
-            offset = CGSize(width: x * fluidity, height: -y * fluidity)
+        if selectedMode == "Motion" {
+            withAnimation(.snappy) {
+                offset = CGSize(width: x * CGFloat(fluidity), height: -y * CGFloat(fluidity))
+            }
         }
+    }
+    
+    private func reset() {
+        blur = 0
+        stickyWall = true
+        stickiness = 21
+        randomness = 150
+        moveBallCount = 1
+        maxBallCount = 15
+        ballSize = 180
+        fluidity = 450
+        setCustomBgColor = false
+        bgColor = Color.black
+        setCustomBallColor = false
+        gradient1 = Color("gradient1")
+        gradient2 = Color("gradient2")
+        gradient3 = Color("gradient3")
+    }
+}
+
+extension Color: RawRepresentable {
+    // TODO: Sort out alpha
+    public init?(rawValue: Int) {
+        let red =   Double((rawValue & 0xFF0000) >> 16) / 0xFF
+        let green = Double((rawValue & 0x00FF00) >> 8) / 0xFF
+        let blue =  Double(rawValue & 0x0000FF) / 0xFF
+        self = Color(red: red, green: green, blue: blue)
+    }
+
+    public var rawValue: Int {
+        guard let coreImageColor = coreImageColor else {
+            return 0
+        }
+        let red = Int(coreImageColor.red * 255 + 0.5)
+        let green = Int(coreImageColor.green * 255 + 0.5)
+        let blue = Int(coreImageColor.blue * 255 + 0.5)
+        return (red << 16) | (green << 8) | blue
+    }
+
+    private var coreImageColor: CIColor? {
+        return CIColor(color: PlatformColor(self))
     }
 }
 
