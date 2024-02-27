@@ -11,6 +11,15 @@
 		0B7E4B9F2B8A49A9003BEF4D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4B9E2B8A49A9003BEF4D /* ContentView.swift */; };
 		0B7E4BA12B8A49AB003BEF4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7E4BA02B8A49AB003BEF4D /* Assets.xcassets */; };
 		0B7E4BA42B8A49AB003BEF4D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7E4BA32B8A49AB003BEF4D /* Preview Assets.xcassets */; };
+		0B7E4BAE2B8A4B75003BEF4D /* DragBallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BAD2B8A4B75003BEF4D /* DragBallView.swift */; };
+		0B7E4BB22B8A532C003BEF4D /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BB12B8A532C003BEF4D /* Ball.swift */; };
+		0B7E4BB42B8A53A9003BEF4D /* AnimateBallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BB32B8A53A9003BEF4D /* AnimateBallView.swift */; };
+		0B7E4BB62B8A53F0003BEF4D /* GradientColorBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BB52B8A53F0003BEF4D /* GradientColorBackground.swift */; };
+		0B7E4BB82B8A583C003BEF4D /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BB72B8A583C003BEF4D /* CustomSlider.swift */; };
+		0B7E4BBA2B8A6193003BEF4D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BB92B8A6193003BEF4D /* HomeView.swift */; };
+		0B7E4BBD2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BBC2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift */; };
+		0B7E4BC02B8A72D2003BEF4D /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BBF2B8A72D2003BEF4D /* Haptics.swift */; };
+		0B7E4BC32B8B2BE4003BEF4D /* MotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BC22B8B2BE4003BEF4D /* MotionService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +28,15 @@
 		0B7E4B9E2B8A49A9003BEF4D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0B7E4BA02B8A49AB003BEF4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B7E4BA32B8A49AB003BEF4D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0B7E4BAD2B8A4B75003BEF4D /* DragBallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragBallView.swift; sourceTree = "<group>"; };
+		0B7E4BB12B8A532C003BEF4D /* Ball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
+		0B7E4BB32B8A53A9003BEF4D /* AnimateBallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateBallView.swift; sourceTree = "<group>"; };
+		0B7E4BB52B8A53F0003BEF4D /* GradientColorBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColorBackground.swift; sourceTree = "<group>"; };
+		0B7E4BB72B8A583C003BEF4D /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		0B7E4BB92B8A6193003BEF4D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		0B7E4BBC2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleButtonWhenPressedModifier.swift; sourceTree = "<group>"; };
+		0B7E4BBF2B8A72D2003BEF4D /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		0B7E4BC22B8B2BE4003BEF4D /* MotionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +69,11 @@
 		0B7E4B9B2B8A49A9003BEF4D /* TheBall */ = {
 			isa = PBXGroup;
 			children = (
+				0B7E4BC12B8B2BD4003BEF4D /* Services */,
+				0B7E4BBE2B8A72C9003BEF4D /* Utils */,
+				0B7E4BBB2B8A6F50003BEF4D /* Modifiers */,
+				0B7E4BAA2B8A4B3A003BEF4D /* Core */,
 				0B7E4B9C2B8A49A9003BEF4D /* TheBallApp.swift */,
-				0B7E4B9E2B8A49A9003BEF4D /* ContentView.swift */,
 				0B7E4BA02B8A49AB003BEF4D /* Assets.xcassets */,
 				0B7E4BA22B8A49AB003BEF4D /* Preview Content */,
 			);
@@ -65,6 +86,60 @@
 				0B7E4BA32B8A49AB003BEF4D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0B7E4BAA2B8A4B3A003BEF4D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				0B7E4BB02B8A52D4003BEF4D /* Components */,
+				0B7E4BAF2B8A52CC003BEF4D /* Views */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		0B7E4BAF2B8A52CC003BEF4D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0B7E4B9E2B8A49A9003BEF4D /* ContentView.swift */,
+				0B7E4BB92B8A6193003BEF4D /* HomeView.swift */,
+				0B7E4BAD2B8A4B75003BEF4D /* DragBallView.swift */,
+				0B7E4BB32B8A53A9003BEF4D /* AnimateBallView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0B7E4BB02B8A52D4003BEF4D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				0B7E4BB12B8A532C003BEF4D /* Ball.swift */,
+				0B7E4BB52B8A53F0003BEF4D /* GradientColorBackground.swift */,
+				0B7E4BB72B8A583C003BEF4D /* CustomSlider.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		0B7E4BBB2B8A6F50003BEF4D /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				0B7E4BBC2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		0B7E4BBE2B8A72C9003BEF4D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0B7E4BBF2B8A72D2003BEF4D /* Haptics.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		0B7E4BC12B8B2BD4003BEF4D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				0B7E4BC22B8B2BE4003BEF4D /* MotionService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +212,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B7E4BB22B8A532C003BEF4D /* Ball.swift in Sources */,
+				0B7E4BB82B8A583C003BEF4D /* CustomSlider.swift in Sources */,
+				0B7E4BC02B8A72D2003BEF4D /* Haptics.swift in Sources */,
+				0B7E4BAE2B8A4B75003BEF4D /* DragBallView.swift in Sources */,
 				0B7E4B9F2B8A49A9003BEF4D /* ContentView.swift in Sources */,
+				0B7E4BB42B8A53A9003BEF4D /* AnimateBallView.swift in Sources */,
+				0B7E4BC32B8B2BE4003BEF4D /* MotionService.swift in Sources */,
+				0B7E4BBA2B8A6193003BEF4D /* HomeView.swift in Sources */,
+				0B7E4BBD2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift in Sources */,
 				0B7E4B9D2B8A49A9003BEF4D /* TheBallApp.swift in Sources */,
+				0B7E4BB62B8A53F0003BEF4D /* GradientColorBackground.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,7 +281,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -254,7 +338,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -275,11 +359,13 @@
 				DEVELOPMENT_TEAM = 8N67823U6B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "The Ball";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,11 +390,13 @@
 				DEVELOPMENT_TEAM = 8N67823U6B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "The Ball";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
