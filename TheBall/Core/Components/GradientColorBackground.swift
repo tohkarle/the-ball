@@ -18,7 +18,9 @@ struct GradientColorBackground: View {
         Rectangle()
             .fill(.linearGradient(colors: [setCustomBallColor ? gradient1 : Color("gradient1"),
                                            setCustomBallColor ? gradient2 : Color("gradient2"),
-                                           setCustomBallColor ? gradient3 : Color("gradient3")], startPoint: .top, endPoint: .bottom))
+                                           setCustomBallColor ? gradient3 : Color("gradient3")], 
+                                  startPoint: .top,
+                                  endPoint: .bottom))
     }
 }
 

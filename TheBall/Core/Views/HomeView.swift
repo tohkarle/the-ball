@@ -33,7 +33,7 @@ struct HomeView: View {
     let modes = ["Motion", "Animate"]
     @State private var selectedMode: String = "Motion"
     
-    @State private var showCustomization: Bool = true
+    @State private var showCustomization: Bool = false
     @State private var showingConfirmation = false
     
     @AppStorage("blur") private var blur: Double = 0
@@ -218,15 +218,13 @@ struct HomeView: View {
                             showingConfirmation = true
                         }
                         .padding(.bottom, 27)
-                        .alert(isPresented: $showingConfirmation) {
-                            Alert(
-                                title: Text("Confirmation"),
-                                message: Text("Are you sure you want to reset to default values?"),
-                                primaryButton: .destructive(Text("Reset")) {
-                                    reset()
-                                },
-                                secondaryButton: .cancel()
-                            )
+                        .confirmationDialog("Confirmation", isPresented: $showingConfirmation) {
+                            Button("Confirm reset", role: .destructive) {
+                                reset()
+                            }
+                            Button("Cancel", role: .cancel) {}
+                        } message: {
+                            Text("Are you sure you want to reset to default values?")
                         }
                     }
                     .animation(.easeInOut, value: selectedMode)
