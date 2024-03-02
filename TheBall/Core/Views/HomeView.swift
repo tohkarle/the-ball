@@ -27,15 +27,22 @@ extension Color {
 struct HomeView: View {
     
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.defaultMinListRowHeight) var minRowHeight
+    
+    @StateObject private var viewModel = ColorPresetViewModel()
     
     @State private var offset: CGSize = .zero
     
     let modes = ["Motion", "Animate"]
     @State private var selectedMode: String = "Motion"
     
+    let animation = ["Bottom", "Top", "Left", "Right", "All"]
+    
     @State private var showCustomization: Bool = false
     @State private var showingConfirmation = false
     
+    @AppStorage("selectedPreset") private var selectedPreset: String = ""
+    @AppStorage("selectedAnimation") private var selectedAnimation: String = "Bottom"
     @AppStorage("blur") private var blur: Double = 0
     @AppStorage("stickyWall") private var stickyWall: Bool = true
     @AppStorage("stickiness") private var stickiness: Double = 21
@@ -45,97 +52,33 @@ struct HomeView: View {
     @AppStorage("ballSize") private var ballSize: Double = 180
     @AppStorage("fluidity") private var fluidity: Double = 450
     @AppStorage("setCustomBgColor") private var setCustomBgColor: Bool = false
-    @AppStorage("bgColor") private var bgColor = Color.black
+    @AppStorage("bgColor") private var bgColor: Color = Color.black
     @AppStorage("setCustomBallColor") private var setCustomBallColor: Bool = false
-    @AppStorage("gradient1") private var gradient1 = Color("gradient1")
-    @AppStorage("gradient2") private var gradient2 = Color("gradient2")
-    @AppStorage("gradient3") private var gradient3 = Color("gradient3")
+    @AppStorage("gradient1") private var gradient1: Color = Color("gradient1")
+    @AppStorage("gradient2") private var gradient2: Color = Color("gradient2")
+    @AppStorage("gradient3") private var gradient3: Color = Color("gradient3")
     
     var motionService: MotionService = MotionServiceAdapter.shared
     
-    @GestureState var press = false
+    @State private var showSavePresetSheet: Bool = false
+    @State private var showPresetsSheet: Bool = false
+    @State private var presetName: String = ""
+    @State private var showTipJar: Bool = false
     
     var body: some View {
+        
         VStack {
             GradientColorBackground(setCustomBallColor: setCustomBallColor,
                                     gradient1: gradient1,
                                     gradient2: gradient2,
                                     gradient3: gradient3)
                 .mask {
-                    TimelineView(.animation(minimumInterval: 3.6, paused: false)) { _ in
-                        Canvas { context, size in
-                            context.addFilter(.alphaThreshold(min: 0.5, color: .white))
-                            context.addFilter(.blur(radius: stickiness))
-                            context.drawLayer { ctx in
-                                for index in 1...Int(maxBallCount + 4) {
-                                    if let resolvedView = context.resolveSymbol(id: index) {
-                                        ctx.draw(resolvedView, at: CGPoint(x: size.width / 2, y: size.height / 2))
-                                    }
-                                }
-                            }
-                        } symbols: {
-                            
-                            ForEach(1...Int(maxBallCount), id: \.self) { index in
-                                
-                                if index == 1 {
-                                    Ball(width: ballSize,
-                                         offset: offset)
-                                    .tag(1)
-                                } else if index == 2 && moveBallCount > 1 {
-                                    Ball(width: ballSize,
-                                         offset: offset)
-                                    .tag(2)
-                                    .animation(.easeInOut(duration: 1), value: offset)
-                                } else if index == 3 && moveBallCount > 2 {
-                                    Ball(width: ballSize,
-                                         offset: offset)
-                                    .tag(3)
-                                    .animation(.easeInOut(duration: 2), value: offset)
-                                } else {
-                                let randomHeight = randomness * (UIScreen.main.bounds.height / UIScreen.main.bounds.width)
-                                let offset = (selectedMode == "Animate" ? CGSize(width: .random(in: -randomness...randomness), height: .random(in: -randomHeight...randomHeight)) : .zero)
-                                
-                                Ball(width: ballSize,
-                                     offset: offset)
-                                    .tag(index)
-                                    .animation(.easeInOut(duration: 4), value: offset)
-                                }
-                            }
-                            
-                            if stickyWall {
-                                Rectangle()
-                                    .fill(.white)
-                                    .frame(width: UIScreen.main.bounds.width, height: 40)
-                                    .offset(y: UIScreen.main.bounds.height / 2 + 20)
-                                    .tag(Int(maxBallCount + 1))
-                                
-                                Rectangle()
-                                    .fill(.white)
-                                    .frame(width: UIScreen.main.bounds.width, height: 40)
-                                    .offset(y: -(UIScreen.main.bounds.height / 2 + 20))
-                                    .tag(Int(maxBallCount + 2))
-                                
-                                Rectangle()
-                                    .fill(.white)
-                                    .frame(width: 40, height: UIScreen.main.bounds.height)
-                                    .offset(x: UIScreen.main.bounds.width / 2 + 20)
-                                    .tag(Int(maxBallCount + 3))
-                                
-                                Rectangle()
-                                    .fill(.white)
-                                    .frame(width: 40, height: UIScreen.main.bounds.height)
-                                    .offset(x: -(UIScreen.main.bounds.width / 2 + 20))
-                                    .tag(Int(maxBallCount + 4))
-                            }
-                        }
-                    }
-                    .blur(radius: blur)
+                    CanvasView(selectedMode: selectedMode, selectedAnimation: selectedAnimation, offset: offset, blur: blur, stickyWall: stickyWall, stickiness: stickiness, randomness: randomness, moveBallCount: moveBallCount, maxBallCount: maxBallCount, ballSize: ballSize, fluidity: fluidity, setCustomBgColor: setCustomBgColor, bgColor: bgColor, setCustomBallColor: setCustomBallColor, gradient1: gradient1, gradient2: gradient2, gradient3: gradient3)
                 }
                 .contentShape(Rectangle())
         }
         .background(setCustomBgColor ? bgColor : Color.clear)
         .onTapGesture {
-            Haptics.shared.play(.soft)
             if selectedMode == "Motion" {
                 selectedMode = "Animate"
             } else {
@@ -170,17 +113,27 @@ struct HomeView: View {
                         .pickerStyle(.segmented)
                         .padding([.top, .horizontal], 24)
                         .padding(.bottom, 15)
+                        if selectedMode == "Animate" {
+                            Picker("Animation", selection: $selectedAnimation) {
+                                ForEach(animation, id: \.self) {
+                                    Text($0)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, 15)
+                        }
                         CustomSlider(title: "Stickiness", value: $stickiness)
                             .padding(.horizontal, 9)
                         if selectedMode == "Animate" {
                             CustomSlider(title: "Randomness", value: $randomness, min: 0, max: UIScreen.main.bounds.width / 2)
                                 .padding(.horizontal, 9)
-                            CustomSlider(title: "Animating ball", value: $maxBallCount, min: 2, max: 30)
+                            CustomSlider(title: "Animating ball", value: $maxBallCount, min: 3, max: 30)
                                 .padding(.horizontal, 9)
                         } else {
                             CustomSlider(title: "Sensitivity", value: $fluidity, min: 150, max: 900)
                                 .padding(.horizontal, 9)
-                            CustomSlider(title: "Moving ball", value: $moveBallCount, min: 1, max: 3)
+                            CustomSlider(title: "Moving ball", value: $moveBallCount, min: 0, max: 3)
                                 .padding(.horizontal, 9)
                         }
                         CustomSlider(title: "Ball size", value: $ballSize, min: 50, max: 300)
@@ -214,17 +167,64 @@ struct HomeView: View {
                                 .padding(.horizontal, 24)
                                 .padding(.bottom, 12)
                         }
-                        Button("Reset to defaults") {
-                            showingConfirmation = true
-                        }
-                        .padding(.bottom, 27)
-                        .confirmationDialog("Confirmation", isPresented: $showingConfirmation) {
-                            Button("Confirm reset", role: .destructive) {
-                                reset()
+                        
+                        VStack(spacing: 12.0) {
+                            CustomButton(title: "Save settings as preset") {
+                                showSavePresetSheet = true
                             }
-                            Button("Cancel", role: .cancel) {}
-                        } message: {
-                            Text("Are you sure you want to reset to default values?")
+                            .padding(.horizontal, 24)
+                            if !viewModel.savedEntities.isEmpty {
+                                CustomButton(title: "Load presets") {
+                                    showPresetsSheet = true
+                                }
+                                .padding(.horizontal, 24)
+                            }
+                            CustomButton(title: "Reset to defaults") {
+                                showingConfirmation = true
+                            }
+                            .padding(.horizontal, 24)
+                            .confirmationDialog("Confirmation", isPresented: $showingConfirmation) {
+                                Button("Confirm reset", role: .destructive) {
+                                    reset()
+                                }
+                                Button("Cancel", role: .cancel) {}
+                            } message: {
+                                Text("Are you sure you want to reset to default values?")
+                            }
+                            Button {
+                                showTipJar = true
+                            } label: {
+                                HStack(spacing: 3.0) {
+                                    Image(systemName: "hands.clap")
+                                    Text("Tip jar")
+                                        .font(.subheadline)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 39)
+                                .background(.ultraThinMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+                            }
+                            .foregroundStyle(.primary)
+                            .padding(.horizontal, 24)
+                            HStack(spacing: 12.0) {
+                                Link("Privacy Policy", destination: URL(string: "https://sites.google.com/view/the-ball-app/privacy-policy")!)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.primary)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 39)
+                                    .background(.ultraThinMaterial)
+                                    .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+                                
+                                Link("Terms of Service", destination: URL(string: "https://sites.google.com/view/the-ball-app/terms-of-service?authuser=0")!)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.primary)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 39)
+                                    .background(.ultraThinMaterial)
+                                    .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+                            }
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, 27)
                         }
                     }
                     .animation(.easeInOut, value: selectedMode)
@@ -248,12 +248,95 @@ struct HomeView: View {
             }
         }
         .onChange(of: selectedMode) { newValue in
+            Haptics.shared.play(.soft)
             if selectedMode == "Motion" {
                 startMonitoring()
             } else {
                 resetOffset()
                 stopMonitoring()
             }
+        }
+        .onChange(of: viewModel.savedEntities.count) { newValue in
+            if newValue == 0 {
+                showPresetsSheet = false
+            }
+        }
+        .sheet(isPresented: $showSavePresetSheet) {
+            VStack(spacing: 0.0) {
+                TextField("Give a name for your preset", text: $presetName)
+                    .font(.headline)
+                    .padding(.leading)
+                    .frame(height: 60)
+                    .background(.thinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                    .padding(.top, 45)
+                    .padding(.horizontal, 21)
+                
+                Button {
+                    guard !presetName.isEmpty else { return }
+                    let id = UUID()
+                    viewModel.addColorPreset(id: id, name: presetName, selectedAnimation: selectedAnimation, blur: blur, stickyWall: stickyWall, stickiness: stickiness, randomness: randomness, moveBallCount: moveBallCount, maxBallCount: maxBallCount, ballSize: ballSize, fluidity: fluidity, setCustomBgColor: setCustomBgColor, bgColor: bgColor, setCustomBallColor: setCustomBallColor, gradient1: gradient1, gradient2: gradient2, gradient3: gradient3)
+                    selectedPreset = id.uuidString
+                    showSavePresetSheet = false
+                    presetName = ""
+                } label: {
+                    Text("Save as preset")
+                        .foregroundStyle(.white)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 48)
+                        .background(Color.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                        .padding(.horizontal, 21)
+                        .padding(.vertical)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .presentationDragIndicator(.visible)
+            .presentationDetents([.height(150)])
+        }
+        .sheet(isPresented: $showPresetsSheet) {
+            List {
+                ForEach(viewModel.savedEntities) { preset in
+                    HStack {
+                        Button(preset.name ?? "Preset") {
+                            selectedPreset = preset.id?.uuidString ?? ""
+                            selectedAnimation = preset.selectedAnimation ?? "Bottom"
+                            blur = preset.blur
+                            stickyWall = preset.stickyWall
+                            stickiness = preset.stickiness
+                            randomness = preset.randomness
+                            moveBallCount = preset.moveBallCount
+                            maxBallCount = preset.maxBallCount
+                            ballSize = preset.ballSize
+                            fluidity = preset.fluidity
+                            setCustomBgColor = preset.setCustomBgColor
+                            bgColor = Color.init(rawValue: Int(preset.bgColor)) ?? Color.black
+                            setCustomBallColor = preset.setCustomBallColor
+                            gradient1 = Color.init(rawValue: Int(preset.gradient1)) ?? Color("gradient1")
+                            gradient2 = Color.init(rawValue: Int(preset.gradient2)) ?? Color("gradient2")
+                            gradient3 = Color.init(rawValue: Int(preset.gradient3)) ?? Color("gradient3")
+                        }
+                        
+                        Spacer()
+                        
+                        if selectedPreset == preset.id?.uuidString {
+                            Image(systemName: "checkmark")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                        }
+                    }
+                    .foregroundStyle(.primary)
+                }
+                .onDelete(perform: viewModel.delete)
+        
+            }
+            .presentationDetents([.height(150), .medium])
+        }
+        .sheet(isPresented: $showTipJar) {
+            TipJarView()
+                .presentationDragIndicator(.visible)
         }
     }
     
@@ -267,7 +350,7 @@ struct HomeView: View {
         let stream = motionService.getStream()
         Task {
             for await (x, y, _) in stream {
-                await self.updateOffset(x: x, y: y)
+                self.updateOffset(x: x, y: y)
             }
         }
     }
@@ -286,6 +369,7 @@ struct HomeView: View {
     }
     
     private func reset() {
+        selectedPreset = ""
         blur = 0
         stickyWall = true
         stickiness = 21
@@ -300,30 +384,6 @@ struct HomeView: View {
         gradient1 = Color("gradient1")
         gradient2 = Color("gradient2")
         gradient3 = Color("gradient3")
-    }
-}
-
-extension Color: RawRepresentable {
-    // TODO: Sort out alpha
-    public init?(rawValue: Int) {
-        let red =   Double((rawValue & 0xFF0000) >> 16) / 0xFF
-        let green = Double((rawValue & 0x00FF00) >> 8) / 0xFF
-        let blue =  Double(rawValue & 0x0000FF) / 0xFF
-        self = Color(red: red, green: green, blue: blue)
-    }
-
-    public var rawValue: Int {
-        guard let coreImageColor = coreImageColor else {
-            return 0
-        }
-        let red = Int(coreImageColor.red * 255 + 0.5)
-        let green = Int(coreImageColor.green * 255 + 0.5)
-        let blue = Int(coreImageColor.blue * 255 + 0.5)
-        return (red << 16) | (green << 8) | blue
-    }
-
-    private var coreImageColor: CIColor? {
-        return CIColor(color: PlatformColor(self))
     }
 }
 

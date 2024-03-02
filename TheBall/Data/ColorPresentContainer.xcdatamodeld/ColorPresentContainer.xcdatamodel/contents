@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G436" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="ColorPresetEntity" representedClassName="ColorPresetEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="ballSize" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="bgColor" optional="YES" attributeType="Integer 32" valueTransformerName="SerializableColorTransformer" defaultValueString="0" usesScalarValueType="YES" customClassName="SerializableColor"/>
+        <attribute name="blur" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="fluidity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="gradient1" optional="YES" attributeType="Integer 32" valueTransformerName="SerializableColorTransformer" defaultValueString="0" usesScalarValueType="YES" customClassName="SerializableColor"/>
+        <attribute name="gradient2" optional="YES" attributeType="Integer 32" valueTransformerName="SerializableColorTransformer" defaultValueString="0" usesScalarValueType="YES" customClassName="SerializableColor"/>
+        <attribute name="gradient3" optional="YES" attributeType="Integer 32" valueTransformerName="SerializableColorTransformer" defaultValueString="0" usesScalarValueType="YES" customClassName="SerializableColor"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="maxBallCount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="moveBallCount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="randomness" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedAnimation" optional="YES" attributeType="String"/>
+        <attribute name="setCustomBallColor" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="setCustomBgColor" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="stickiness" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="stickyWall" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+</model>

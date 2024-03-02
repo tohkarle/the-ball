@@ -9,6 +9,12 @@ import SwiftUI
 
 @main
 struct TheBallApp: App {
+    
+    init() {
+        ValueTransformer.setValueTransformer(SerializableColorTransformer(),
+                                             forName: NSValueTransformerName(rawValue: "SerializableColorTransformer"))
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

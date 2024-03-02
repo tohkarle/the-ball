@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0596912B9238B6006E82D1 /* PropertyList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B0596902B9238B6006E82D1 /* PropertyList.plist */; };
+		0B0596932B923970006E82D1 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0596922B923970006E82D1 /* StoreKitManager.swift */; };
+		0B0596952B923AD7006E82D1 /* TipJarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0596942B923AD7006E82D1 /* TipJarView.swift */; };
+		0B0596972B93265B006E82D1 /* ExclusiveCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0596962B93265B006E82D1 /* ExclusiveCardView.swift */; };
+		0B4A8D4E2B8E26FB00A3AF90 /* ScreenshotPreventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A8D4D2B8E26FB00A3AF90 /* ScreenshotPreventView.swift */; };
+		0B4A8D502B8E2CFC00A3AF90 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4A8D4F2B8E2CFC00A3AF90 /* CanvasView.swift */; };
+		0B6B02AC2B912AD80010ED6B /* ColorPresetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B02AB2B912AD80010ED6B /* ColorPresetViewModel.swift */; };
+		0B6B02B32B913AF80010ED6B /* ColorPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B02B22B913AF80010ED6B /* ColorPreset.swift */; };
+		0B6B02B62B913BA60010ED6B /* ColorPresentContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B02B42B913BA60010ED6B /* ColorPresentContainer.xcdatamodeld */; };
+		0B6B02B82B9190E20010ED6B /* SerializableColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B02B72B9190E20010ED6B /* SerializableColor.swift */; };
+		0B6B02BA2B9197920010ED6B /* ColorRawValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6B02B92B9197920010ED6B /* ColorRawValue.swift */; };
 		0B7E4B9D2B8A49A9003BEF4D /* TheBallApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4B9C2B8A49A9003BEF4D /* TheBallApp.swift */; };
 		0B7E4B9F2B8A49A9003BEF4D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4B9E2B8A49A9003BEF4D /* ContentView.swift */; };
 		0B7E4BA12B8A49AB003BEF4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7E4BA02B8A49AB003BEF4D /* Assets.xcassets */; };
@@ -20,9 +31,22 @@
 		0B7E4BBD2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BBC2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift */; };
 		0B7E4BC02B8A72D2003BEF4D /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BBF2B8A72D2003BEF4D /* Haptics.swift */; };
 		0B7E4BC32B8B2BE4003BEF4D /* MotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E4BC22B8B2BE4003BEF4D /* MotionService.swift */; };
+		0B881DB62B92258C00135644 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B881DB52B92258C00135644 /* CustomButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B05968F2B923764006E82D1 /* TipJar.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = TipJar.storekit; sourceTree = "<group>"; };
+		0B0596902B9238B6006E82D1 /* PropertyList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PropertyList.plist; sourceTree = "<group>"; };
+		0B0596922B923970006E82D1 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
+		0B0596942B923AD7006E82D1 /* TipJarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJarView.swift; sourceTree = "<group>"; };
+		0B0596962B93265B006E82D1 /* ExclusiveCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExclusiveCardView.swift; sourceTree = "<group>"; };
+		0B4A8D4D2B8E26FB00A3AF90 /* ScreenshotPreventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotPreventView.swift; sourceTree = "<group>"; };
+		0B4A8D4F2B8E2CFC00A3AF90 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		0B6B02AB2B912AD80010ED6B /* ColorPresetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPresetViewModel.swift; sourceTree = "<group>"; };
+		0B6B02B22B913AF80010ED6B /* ColorPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPreset.swift; sourceTree = "<group>"; };
+		0B6B02B52B913BA60010ED6B /* ColorPresentContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ColorPresentContainer.xcdatamodel; sourceTree = "<group>"; };
+		0B6B02B72B9190E20010ED6B /* SerializableColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerializableColor.swift; sourceTree = "<group>"; };
+		0B6B02B92B9197920010ED6B /* ColorRawValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorRawValue.swift; sourceTree = "<group>"; };
 		0B7E4B992B8A49A9003BEF4D /* TheBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B7E4B9C2B8A49A9003BEF4D /* TheBallApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheBallApp.swift; sourceTree = "<group>"; };
 		0B7E4B9E2B8A49A9003BEF4D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -37,6 +61,7 @@
 		0B7E4BBC2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleButtonWhenPressedModifier.swift; sourceTree = "<group>"; };
 		0B7E4BBF2B8A72D2003BEF4D /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		0B7E4BC22B8B2BE4003BEF4D /* MotionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionService.swift; sourceTree = "<group>"; };
+		0B881DB52B92258C00135644 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +75,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B6B02AA2B912AAA0010ED6B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0B6B02AB2B912AD80010ED6B /* ColorPresetViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0B6B02AD2B912B690010ED6B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0B6B02B22B913AF80010ED6B /* ColorPreset.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0B6B02AE2B912B810010ED6B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				0B6B02B42B913BA60010ED6B /* ColorPresentContainer.xcdatamodeld */,
+				0B05968F2B923764006E82D1 /* TipJar.storekit */,
+				0B0596902B9238B6006E82D1 /* PropertyList.plist */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		0B7E4B902B8A49A9003BEF4D = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +120,8 @@
 		0B7E4B9B2B8A49A9003BEF4D /* TheBall */ = {
 			isa = PBXGroup;
 			children = (
+				0B6B02AE2B912B810010ED6B /* Data */,
+				0B6B02AD2B912B690010ED6B /* Models */,
 				0B7E4BC12B8B2BD4003BEF4D /* Services */,
 				0B7E4BBE2B8A72C9003BEF4D /* Utils */,
 				0B7E4BBB2B8A6F50003BEF4D /* Modifiers */,
@@ -93,6 +146,7 @@
 			children = (
 				0B7E4BB02B8A52D4003BEF4D /* Components */,
 				0B7E4BAF2B8A52CC003BEF4D /* Views */,
+				0B6B02AA2B912AAA0010ED6B /* ViewModels */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -104,6 +158,9 @@
 				0B7E4BB92B8A6193003BEF4D /* HomeView.swift */,
 				0B7E4BAD2B8A4B75003BEF4D /* DragBallView.swift */,
 				0B7E4BB32B8A53A9003BEF4D /* AnimateBallView.swift */,
+				0B4A8D4F2B8E2CFC00A3AF90 /* CanvasView.swift */,
+				0B0596942B923AD7006E82D1 /* TipJarView.swift */,
+				0B0596962B93265B006E82D1 /* ExclusiveCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -114,6 +171,7 @@
 				0B7E4BB12B8A532C003BEF4D /* Ball.swift */,
 				0B7E4BB52B8A53F0003BEF4D /* GradientColorBackground.swift */,
 				0B7E4BB72B8A583C003BEF4D /* CustomSlider.swift */,
+				0B881DB52B92258C00135644 /* CustomButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -130,6 +188,10 @@
 			isa = PBXGroup;
 			children = (
 				0B7E4BBF2B8A72D2003BEF4D /* Haptics.swift */,
+				0B4A8D4D2B8E26FB00A3AF90 /* ScreenshotPreventView.swift */,
+				0B6B02B72B9190E20010ED6B /* SerializableColor.swift */,
+				0B6B02B92B9197920010ED6B /* ColorRawValue.swift */,
+				0B0596922B923970006E82D1 /* StoreKitManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -201,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B7E4BA42B8A49AB003BEF4D /* Preview Assets.xcassets in Resources */,
+				0B0596912B9238B6006E82D1 /* PropertyList.plist in Resources */,
 				0B7E4BA12B8A49AB003BEF4D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,15 +276,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B7E4BB22B8A532C003BEF4D /* Ball.swift in Sources */,
+				0B881DB62B92258C00135644 /* CustomButton.swift in Sources */,
+				0B6B02B62B913BA60010ED6B /* ColorPresentContainer.xcdatamodeld in Sources */,
 				0B7E4BB82B8A583C003BEF4D /* CustomSlider.swift in Sources */,
+				0B0596932B923970006E82D1 /* StoreKitManager.swift in Sources */,
+				0B4A8D502B8E2CFC00A3AF90 /* CanvasView.swift in Sources */,
+				0B0596952B923AD7006E82D1 /* TipJarView.swift in Sources */,
+				0B6B02B82B9190E20010ED6B /* SerializableColor.swift in Sources */,
 				0B7E4BC02B8A72D2003BEF4D /* Haptics.swift in Sources */,
+				0B4A8D4E2B8E26FB00A3AF90 /* ScreenshotPreventView.swift in Sources */,
 				0B7E4BAE2B8A4B75003BEF4D /* DragBallView.swift in Sources */,
 				0B7E4B9F2B8A49A9003BEF4D /* ContentView.swift in Sources */,
 				0B7E4BB42B8A53A9003BEF4D /* AnimateBallView.swift in Sources */,
 				0B7E4BC32B8B2BE4003BEF4D /* MotionService.swift in Sources */,
+				0B6B02AC2B912AD80010ED6B /* ColorPresetViewModel.swift in Sources */,
 				0B7E4BBA2B8A6193003BEF4D /* HomeView.swift in Sources */,
 				0B7E4BBD2B8A6F66003BEF4D /* ScaleButtonWhenPressedModifier.swift in Sources */,
+				0B0596972B93265B006E82D1 /* ExclusiveCardView.swift in Sources */,
+				0B6B02BA2B9197920010ED6B /* ColorRawValue.swift in Sources */,
 				0B7E4B9D2B8A49A9003BEF4D /* TheBallApp.swift in Sources */,
+				0B6B02B32B913AF80010ED6B /* ColorPreset.swift in Sources */,
 				0B7E4BB62B8A53F0003BEF4D /* GradientColorBackground.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,6 +434,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "The Ball";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We want to save the screenshot";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -391,6 +466,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "The Ball";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We want to save the screenshot";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -432,6 +508,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0B6B02B42B913BA60010ED6B /* ColorPresentContainer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0B6B02B52B913BA60010ED6B /* ColorPresentContainer.xcdatamodel */,
+			);
+			currentVersion = 0B6B02B52B913BA60010ED6B /* ColorPresentContainer.xcdatamodel */;
+			path = ColorPresentContainer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0B7E4B912B8A49A9003BEF4D /* Project object */;
 }
